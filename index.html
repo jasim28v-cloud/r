@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>SHΔDØW STREAM | ANONYMOUS MODE</title>
+    <title>SHΔDØW STREAM | FINAL FIXED</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://upload-widget.cloudinary.com/global/all.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
@@ -14,68 +14,56 @@
         body, html { margin: 0; padding: 0; height: 100%; background: #000; color: #fff; font-family: 'Noto Sans Arabic', sans-serif; overflow: hidden; }
         .scroll-engine { height: 100vh; overflow-y: scroll; scroll-snap-type: y mandatory; scrollbar-width: none; }
         .scroll-engine::-webkit-scrollbar { display: none; }
-        .video-segment { height: 100vh; width: 100vw; scroll-snap-align: start; position: relative; background: #000; }
+        .video-segment { height: 100vh; width: 100vw; scroll-snap-align: start; position: relative; background: #000; display: flex; align-items: center; }
         video { width: 100%; height: 100%; object-fit: cover; }
-        .ui-overlay { position: absolute; inset: 0; background: linear-gradient(0deg, rgba(0,0,0,0.85) 0%, transparent 40%, rgba(0,0,0,0.4) 100%); pointer-events: none; display: flex; flex-direction: column; justify-content: flex-end; padding: 110px 20px; }
-        .side-interface { position: absolute; left: 15px; bottom: 120px; display: flex; flex-direction: column; gap: 25px; pointer-events: auto; z-index: 50; }
-        .icon-circle { width: 52px; height: 52px; background: rgba(255,255,255,0.05); backdrop-filter: blur(20px); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px; border: 1px solid rgba(255,255,255,0.1); transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-        .icon-circle:active { transform: scale(0.8) rotate(15deg); color: #00f3ff; border-color: #00f3ff; }
-        .nav-dock { position: fixed; bottom: 0; width: 100%; height: 75px; background: rgba(0,0,0,0.95); backdrop-filter: blur(25px); display: flex; justify-content: space-around; align-items: center; border-top: 1px solid rgba(0,243,255,0.15); z-index: 100; }
-        .user-tag { background: rgba(0,243,255,0.1); border: 1px solid #00f3ff; color: #00f3ff; padding: 2px 8px; border-radius: 5px; font-size: 10px; font-family: 'Orbitron'; margin-bottom: 5px; display: inline-block; }
+        .ui-overlay { position: absolute; inset: 0; background: linear-gradient(0deg, rgba(0,0,0,0.8) 0%, transparent 40%); pointer-events: none; display: flex; flex-direction: column; justify-content: flex-end; padding: 110px 20px; }
+        .side-interface { position: absolute; left: 15px; bottom: 120px; display: flex; flex-direction: column; gap: 20px; pointer-events: auto; z-index: 50; }
+        .icon-circle { width: 50px; height: 50px; background: rgba(255,255,255,0.1); backdrop-filter: blur(10px); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px; border: 1px solid rgba(255,255,255,0.1); }
+        .nav-dock { position: fixed; bottom: 0; width: 100%; height: 75px; background: rgba(0,0,0,0.9); backdrop-filter: blur(20px); display: flex; justify-content: space-around; align-items: center; border-top: 1px solid rgba(0,243,255,0.2); z-index: 100; }
+        .delete-btn { position: absolute; top: 20px; right: 20px; color: #ff0055; background: rgba(0,0,0,0.5); padding: 10px; border-radius: 50%; z-index: 100; cursor: pointer; }
     </style>
 </head>
 <body>
 
     <header class="fixed top-0 w-full z-50 p-6 flex justify-between items-center">
-        <div class="flex flex-col">
-            <span id="my-id-display" class="text-[9px] font-mono text-cyan-500 opacity-70 tracking-widest">ID: INITIALIZING...</span>
-            <div class="flex items-center gap-2 mt-1">
-                <div class="w-2 h-2 rounded-full bg-green-500"></div>
-                <span class="text-[10px] font-bold opacity-50 uppercase">Anonymous Protocol</span>
-            </div>
-        </div>
+        <span id="my-id-display" class="text-[10px] font-mono text-cyan-400">ID: --</span>
         <div class="text-xl font-black italic text-cyan-400 font-[Orbitron]">SHΔDØW</div>
     </header>
 
     <main class="scroll-engine" id="video-stack">
         <div class="h-full w-full flex items-center justify-center">
-            <i class="fas fa-ghost fa-beat text-3xl text-cyan-500 opacity-20"></i>
+            <i class="fas fa-spinner fa-spin text-2xl text-cyan-500"></i>
         </div>
     </main>
 
     <nav class="nav-dock">
         <i class="fas fa-home text-cyan-400 text-xl"></i>
-        <i class="fas fa-compass opacity-30 text-xl"></i>
-        <div id="upload-trigger" class="w-14 h-10 bg-cyan-500 text-black rounded-xl flex items-center justify-center shadow-[0_0_20px_rgba(0,243,255,0.5)] cursor-pointer active:scale-90 transition-transform">
+        <div id="upload-trigger" class="w-14 h-10 bg-cyan-500 text-black rounded-xl flex items-center justify-center shadow-[0_0_20px_rgba(0,243,255,0.5)] cursor-pointer">
             <i class="fas fa-plus text-lg"></i>
         </div>
-        <i class="fas fa-comment-code opacity-30 text-xl"></i>
-        <i class="fas fa-user-secret opacity-30 text-xl"></i>
+        <i class="fas fa-user-secret opacity-40 text-xl"></i>
     </nav>
 
     <script>
-        // --- هويتك الرقمية (Anonymous Identity) ---
-        let SHADOW_ID = localStorage.getItem('shadow_uid');
-        if(!SHADOW_ID) {
-            SHADOW_ID = 'GHOST_' + Math.random().toString(36).substr(2, 6).toUpperCase();
-            localStorage.setItem('shadow_uid', SHADOW_ID);
-        }
+        // 1. إعداد الهوية
+        const SHADOW_ID = localStorage.getItem('shadow_uid') || 'USER_' + Math.random().toString(36).substr(2, 4).toUpperCase();
+        localStorage.setItem('shadow_uid', SHADOW_ID);
         document.getElementById('my-id-display').innerText = `ID: ${SHADOW_ID}`;
 
-        // --- إعدادات السحابة ---
-        const CLOUD_NAME = "dssk5tabb";
-        const UPLOAD_PRESET = "Shadow_preset";
-        const firebaseConfig = { databaseURL: "https://YOUR_PROJECT.firebaseio.com" };
+        // 2. إعداد Firebase
+        const firebaseConfig = { databaseURL: "https://YOUR_PROJECT_ID.firebaseio.com" }; // استبدله برابطك
         firebase.initializeApp(firebaseConfig);
         const db = firebase.database();
 
-        // --- محرك الرفع ---
+        // 3. إعداد Cloudinary (بناءً على صورتك الأخيرة)
+        const CLOUD_NAME = "dssk5tabb";
+        const UPLOAD_PRESET = "bjebvo5p"; // الاسم الصحيح من صورتك
+
         const myWidget = cloudinary.createUploadWidget({
             cloudName: CLOUD_NAME,
             uploadPreset: UPLOAD_PRESET,
             sources: ['local', 'google_drive'],
-            clientAllowedFormats: ["mp4", "mov"],
-            styles: { palette: { window: "#000", windowBorder: "#00f3ff", tabIcon: "#00f3ff", textLight: "#fff" } }
+            clientAllowedFormats: ["mp4", "mov"]
         }, (error, result) => {
             if (!error && result.event === "success") {
                 db.ref('videos/').push({
@@ -89,60 +77,51 @@
 
         document.getElementById("upload-trigger").addEventListener("click", () => myWidget.open());
 
-        // --- محرك العرض والتعليقات ---
+        // 4. محرك العرض
         db.ref('videos').on('value', (snapshot) => {
             const data = snapshot.val();
             const container = document.getElementById('video-stack');
-            if(!data) return;
             container.innerHTML = '';
+            if(!data) { container.innerHTML = '<div class="h-full flex items-center justify-center opacity-30">NO VIDEOS</div>'; return; }
+
             Object.keys(data).reverse().forEach(id => {
                 const vid = data[id];
                 const section = document.createElement('section');
                 section.className = 'video-segment';
+                const deleteHtml = vid.sender === SHADOW_ID ? `<div class="delete-btn" onclick="deleteVideo('${id}')"><i class="fas fa-trash"></i></div>` : '';
+
                 section.innerHTML = `
                     <video loop playsinline src="${vid.url}"></video>
+                    ${deleteHtml}
                     <div class="side-interface">
-                        <div class="interface-btn" onclick="this.style.color='#ff0055'"><div class="icon-circle"><i class="fas fa-heart"></i></div></div>
-                        <div class="interface-btn" onclick="sendComment('${id}')"><div class="icon-circle"><i class="fas fa-comment-dots"></i></div><span class="text-[9px] text-center font-bold mt-2">CHAT</span></div>
-                        <div class="interface-btn"><div class="icon-circle"><i class="fas fa-share-alt"></i></div></div>
+                        <div class="icon-circle" onclick="this.style.color='red'"><i class="fas fa-heart"></i></div>
+                        <div class="icon-circle" onclick="alert('CHAT_LOCKED')"><i class="fas fa-comment"></i></div>
                     </div>
                     <div class="ui-overlay">
                         <div class="text-right">
-                            <span class="user-tag">@${vid.sender}</span>
-                            <p class="text-sm font-bold opacity-90 leading-tight">${vid.name}</p>
-                            <div class="mt-4 flex items-center justify-end gap-2 opacity-30">
-                                <span class="text-[8px] font-mono">${new Date(vid.timestamp).toLocaleTimeString()}</span>
-                                <i class="fas fa-clock text-[8px]"></i>
-                            </div>
+                            <span class="text-[9px] text-cyan-400 border border-cyan-400 px-2 py-1 rounded">@${vid.sender}</span>
+                            <p class="mt-2 text-sm font-bold">${vid.name}</p>
                         </div>
                     </div>
                 `;
                 container.appendChild(section);
             });
-            initScroll();
+            initAutoPlay();
         });
 
-        function sendComment(vId) {
-            const msg = prompt("اكتب رسالتك المجهولة:");
-            if(msg) {
-                db.ref(`comments/${vId}`).push({
-                    user: SHADOW_ID,
-                    text: msg,
-                    time: Date.now()
-                });
-                alert("تم إرسال التعليق تحت هويتك المجهولة.");
-            }
+        function deleteVideo(id) {
+            if(confirm("حذف الفيديو؟")) db.ref('videos/' + id).remove();
         }
 
-        function initScroll() {
-            const obs = new IntersectionObserver((entries) => {
+        function initAutoPlay() {
+            const observer = new IntersectionObserver((entries) => {
                 entries.forEach(e => {
                     const v = e.target.querySelector('video');
                     if(e.isIntersecting) v.play().catch(()=>{});
                     else { v.pause(); v.currentTime = 0; }
                 });
             }, { threshold: 0.8 });
-            document.querySelectorAll('.video-segment').forEach(s => obs.observe(s));
+            document.querySelectorAll('.video-segment').forEach(s => observer.observe(s));
         }
 
         document.addEventListener('click', () => { document.querySelectorAll('video').forEach(v => v.muted = false); }, { once: true });
