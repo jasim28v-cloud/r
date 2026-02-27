@@ -3,128 +3,109 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>SHΔDØW STREAM | FINAL FIXED</title>
+    <title>SHΔDØW PRO | عبد الله</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://upload-widget.cloudinary.com/global/all.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Noto+Sans+Arabic:wght@400;700&display=swap');
-        body, html { margin: 0; padding: 0; height: 100%; background: #000; color: #fff; font-family: 'Noto Sans Arabic', sans-serif; overflow: hidden; }
+        body, html { margin: 0; padding: 0; height: 100%; background: #000; color: #fff; overflow: hidden; font-family: sans-serif; }
         .scroll-engine { height: 100vh; overflow-y: scroll; scroll-snap-type: y mandatory; scrollbar-width: none; }
         .scroll-engine::-webkit-scrollbar { display: none; }
-        .video-segment { height: 100vh; width: 100vw; scroll-snap-align: start; position: relative; background: #000; display: flex; align-items: center; }
+        .video-segment { height: 100vh; width: 100vw; scroll-snap-align: start; position: relative; background: #000; display: flex; align-items: center; justify-content: center; }
         video { width: 100%; height: 100%; object-fit: cover; }
-        .ui-overlay { position: absolute; inset: 0; background: linear-gradient(0deg, rgba(0,0,0,0.8) 0%, transparent 40%); pointer-events: none; display: flex; flex-direction: column; justify-content: flex-end; padding: 110px 20px; }
-        .side-interface { position: absolute; left: 15px; bottom: 120px; display: flex; flex-direction: column; gap: 20px; pointer-events: auto; z-index: 50; }
-        .icon-circle { width: 50px; height: 50px; background: rgba(255,255,255,0.1); backdrop-filter: blur(10px); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px; border: 1px solid rgba(255,255,255,0.1); }
-        .nav-dock { position: fixed; bottom: 0; width: 100%; height: 75px; background: rgba(0,0,0,0.9); backdrop-filter: blur(20px); display: flex; justify-content: space-around; align-items: center; border-top: 1px solid rgba(0,243,255,0.2); z-index: 100; }
-        .delete-btn { position: absolute; top: 20px; right: 20px; color: #ff0055; background: rgba(0,0,0,0.5); padding: 10px; border-radius: 50%; z-index: 100; cursor: pointer; }
+        .nav-dock { position: fixed; bottom: 0; width: 100%; height: 70px; background: rgba(0,0,0,0.85); backdrop-filter: blur(15px); display: flex; justify-content: space-around; align-items: center; z-index: 100; border-top: 1px solid rgba(0,243,255,0.2); }
+        .ui-overlay { position: absolute; inset: 0; background: linear-gradient(0deg, rgba(0,0,0,0.6) 0%, transparent 40%); pointer-events: none; display: flex; flex-direction: column; justify-content: flex-end; padding: 90px 20px; }
     </style>
 </head>
 <body>
 
-    <header class="fixed top-0 w-full z-50 p-6 flex justify-between items-center">
-        <span id="my-id-display" class="text-[10px] font-mono text-cyan-400">ID: --</span>
-        <div class="text-xl font-black italic text-cyan-400 font-[Orbitron]">SHΔDØW</div>
-    </header>
-
     <main class="scroll-engine" id="video-stack">
-        <div class="h-full w-full flex items-center justify-center">
-            <i class="fas fa-spinner fa-spin text-2xl text-cyan-500"></i>
+        <div class="h-full flex flex-col items-center justify-center gap-4 text-cyan-500">
+            <i class="fas fa-link animate-pulse text-3xl"></i>
+            <span class="text-xs font-mono tracking-widest uppercase">Connecting to Project-717e4...</span>
         </div>
     </main>
 
     <nav class="nav-dock">
         <i class="fas fa-home text-cyan-400 text-xl"></i>
-        <div id="upload-trigger" class="w-14 h-10 bg-cyan-500 text-black rounded-xl flex items-center justify-center shadow-[0_0_20px_rgba(0,243,255,0.5)] cursor-pointer">
+        <div id="upload-btn" class="w-14 h-10 bg-cyan-500 text-black rounded-xl flex items-center justify-center cursor-pointer shadow-[0_0_15px_rgba(6,182,212,0.4)]">
             <i class="fas fa-plus text-lg"></i>
         </div>
         <i class="fas fa-user-secret opacity-40 text-xl"></i>
     </nav>
 
     <script>
-        // 1. إعداد الهوية
-        const SHADOW_ID = localStorage.getItem('shadow_uid') || 'USER_' + Math.random().toString(36).substr(2, 4).toUpperCase();
-        localStorage.setItem('shadow_uid', SHADOW_ID);
-        document.getElementById('my-id-display').innerText = `ID: ${SHADOW_ID}`;
-
-        // 2. إعداد Firebase
-        const firebaseConfig = { databaseURL: "https://YOUR_PROJECT_ID.firebaseio.com" }; // استبدله برابطك
+        // 1. إعداد Firebase بالرابط الذي أرسلته
+        const firebaseConfig = { 
+            databaseURL: "https://project-717e4-default-rtdb.firebaseio.com/" 
+        };
         firebase.initializeApp(firebaseConfig);
         const db = firebase.database();
 
-        // 3. إعداد Cloudinary (بناءً على صورتك الأخيرة)
+        // 2. إعداد Cloudinary (بناءً على إعداداتك bjebvo5p)
         const CLOUD_NAME = "dssk5tabb";
-        const UPLOAD_PRESET = "bjebvo5p"; // الاسم الصحيح من صورتك
+        const UPLOAD_PRESET = "bjebvo5p"; 
 
         const myWidget = cloudinary.createUploadWidget({
             cloudName: CLOUD_NAME,
             uploadPreset: UPLOAD_PRESET,
-            sources: ['local', 'google_drive'],
+            sources: ['local'],
             clientAllowedFormats: ["mp4", "mov"]
         }, (error, result) => {
             if (!error && result.event === "success") {
                 db.ref('videos/').push({
-                    sender: SHADOW_ID,
-                    name: result.info.original_filename,
                     url: result.info.secure_url,
-                    timestamp: firebase.database.ServerValue.TIMESTAMP
+                    timestamp: Date.now()
                 });
             }
         });
 
-        document.getElementById("upload-trigger").addEventListener("click", () => myWidget.open());
+        document.getElementById("upload-btn").addEventListener("click", () => myWidget.open());
 
-        // 4. محرك العرض
+        // 3. محرك جلب وعرض الفيديوهات
         db.ref('videos').on('value', (snapshot) => {
-            const data = snapshot.val();
             const container = document.getElementById('video-stack');
+            const data = snapshot.val();
+            
+            if(!data) { 
+                container.innerHTML = '<div class="h-full flex flex-col items-center justify-center opacity-30 text-xs gap-2"><i class="fas fa-video-slash text-xl"></i>قاعدة البيانات فارغة. ارفع فيديو الآن!</div>'; 
+                return; 
+            }
+            
             container.innerHTML = '';
-            if(!data) { container.innerHTML = '<div class="h-full flex items-center justify-center opacity-30">NO VIDEOS</div>'; return; }
-
             Object.keys(data).reverse().forEach(id => {
-                const vid = data[id];
                 const section = document.createElement('section');
                 section.className = 'video-segment';
-                const deleteHtml = vid.sender === SHADOW_ID ? `<div class="delete-btn" onclick="deleteVideo('${id}')"><i class="fas fa-trash"></i></div>` : '';
-
                 section.innerHTML = `
-                    <video loop playsinline src="${vid.url}"></video>
-                    ${deleteHtml}
-                    <div class="side-interface">
-                        <div class="icon-circle" onclick="this.style.color='red'"><i class="fas fa-heart"></i></div>
-                        <div class="icon-circle" onclick="alert('CHAT_LOCKED')"><i class="fas fa-comment"></i></div>
-                    </div>
+                    <video loop playsinline muted src="${data[id].url}"></video>
                     <div class="ui-overlay">
                         <div class="text-right">
-                            <span class="text-[9px] text-cyan-400 border border-cyan-400 px-2 py-1 rounded">@${vid.sender}</span>
-                            <p class="mt-2 text-sm font-bold">${vid.name}</p>
+                            <span class="text-[10px] bg-cyan-500/10 text-cyan-400 border border-cyan-400/30 px-2 py-1 rounded">@Shadow_Stream</span>
                         </div>
                     </div>
                 `;
                 container.appendChild(section);
             });
-            initAutoPlay();
+            setupObserver();
         });
 
-        function deleteVideo(id) {
-            if(confirm("حذف الفيديو؟")) db.ref('videos/' + id).remove();
-        }
-
-        function initAutoPlay() {
-            const observer = new IntersectionObserver((entries) => {
+        function setupObserver() {
+            const obs = new IntersectionObserver((entries) => {
                 entries.forEach(e => {
                     const v = e.target.querySelector('video');
                     if(e.isIntersecting) v.play().catch(()=>{});
-                    else { v.pause(); v.currentTime = 0; }
+                    else v.pause();
                 });
-            }, { threshold: 0.8 });
-            document.querySelectorAll('.video-segment').forEach(s => observer.observe(s));
+            }, { threshold: 0.7 });
+            document.querySelectorAll('.video-segment').forEach(s => obs.observe(s));
         }
 
-        document.addEventListener('click', () => { document.querySelectorAll('video').forEach(v => v.muted = false); }, { once: true });
+        // تفعيل الصوت عند أول نقرة
+        document.addEventListener('click', () => { 
+            document.querySelectorAll('video').forEach(v => v.muted = false); 
+        }, { once: true });
     </script>
 </body>
 </html>
